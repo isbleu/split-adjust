@@ -7,7 +7,14 @@ Created on 2024 Sep 8
 * 4，如果需要还原close open等 用从后往前的split的cumprod * 这些值
 * 5，从后往前reversed for loop 先算出 adj_ratios = adj_close_t1 / close_t1再用 除权的当日close * adj_ratios
 * 6，其他open等也按照同样的方式 除权的当日open * adj_ratios
-@author: iswx
+### Adjust yfinance data
+* 1. Change the value of split from 0 to 1, restore close and cumproduct split backward
+* 2. Determine whether adjustback_for_split is needed
+* 3. Copy close in stock to adj. close column
+* 4. If you need to restore close, open, etc., use cumprod of split backward and multiplied by these values
+* 5. Reversed for loop to calculate adj_ratios = adj_close_t1 / close_t1 and then close on ex-day is multiplied by adj_ratios
+* 6. other prices are also calculated in the same way. e.g. Open on the ex-day * adj_ratios
+@author: isbleu
 '''
 import pandas as pd
 import numpy as np

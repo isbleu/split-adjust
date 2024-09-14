@@ -22,7 +22,7 @@ import numpy as np
 def adjust_yfinance_stock_price(stock,adjustback_for_split=False):
     stock = stock.copy()
 
-    if adjustback_for_split == True: #调整回未除权价格
+    if adjustback_for_split == True: #调整回未除权价格 reverse the split-ajusted prices
         stock['Split Ratio'] = np.where(stock['Stock Splits'] == 0 , 1,stock['Stock Splits'] )
         splits_t1 = stock['Split Ratio'].shift(-1).fillna(stock['Split Ratio'])
         splits_t1_reversed_cumrod = np.cumprod(splits_t1[::-1])[::-1] #cumulative product backward
@@ -30,9 +30,9 @@ def adjust_yfinance_stock_price(stock,adjustback_for_split=False):
         stock['Close'] *= splits_t1_reversed_cumrod
         stock['High'] *= splits_t1_reversed_cumrod
         stock['Low'] *= splits_t1_reversed_cumrod
-        stock['Volume'] /= splits_t1_reversed_cumrod #把成交量除以split 还原volume
+        stock['Volume'] /= splits_t1_reversed_cumrod #把成交量除以split 还原volume ,  volume divided by split to reverse it to the original one
     else: #default setting to not adjust back for split
-        stock['Split Ratio'] = 1 #该数据已经调整过split了
+        stock['Split Ratio'] = 1 #该数据已经调整过split了, the data is already adjusted for split
         splits_t1 = stock['Split Ratio'].shift(-1).fillna(stock['Split Ratio'])
         splits_t1_reversed_cumrod = np.cumprod(splits_t1[::-1])[::-1]
     

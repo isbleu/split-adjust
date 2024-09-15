@@ -250,5 +250,5 @@ msft = adjust_yfinance_stock_price(msft,adjustback_for_split = True)
     </tr>
   </tbody>
 </table>
-<p>9704 rows x 14 columns</p>
+<p>9704 rows × 14 columns</p>
 </div>
